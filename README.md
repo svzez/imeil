@@ -5,7 +5,7 @@ A python script to test smtp/email servers.  Accepts multiple arguments from com
 * Python 3.4+
 * python-magic --> pip3 install python-magic
 
-##Usage
+## Usage
 ```sh
 usage: Imeil [-h] [-f address [Full Name ...]] [-m SMTPHOST] [-s SUBJECT]
              [-b BODY] [-l HTML] [-r address [Full Name ...]]
