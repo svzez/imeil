@@ -40,3 +40,14 @@ optional arguments:
   -t, --notls           Disables TLS
   -v, --verbose         Verbose
 ```
+
+## Examples
+	```sh
+	./imeil.py -f test@test123.com "The Tester" -m 127.0.0.1 -r recipient1@domain.com "Recipient 1" -r recipient2@domain.com -c recipient3@domain.com -a /path/to/test.png -a path/to/test.pdf -s "This is a subject" -b "Plain Text body" -l /path/to/htmlbody.html
+	```
+
+	Multiple --mailfrom addresses create a set of emails for each mailfrom:
+
+	```sh
+	./imeil.py -f test@test123.com "The Tester" -f test2@test1234.com -m 127.0.0.1 -r recipient1@domain.com "Recipient 1" -r recipient2@domain.com -c recipient3@domain.com -a /path/to/test.png -a path/to/test.pdf -s "This is a subject" -b "Plain Text body" -l /path/to/htmlbody.html
+	```
