@@ -7,10 +7,10 @@ A python script to test smtp/email servers.  Accepts multiple arguments from com
 
 ## Usage
 ```sh
-usage: Imeil [-h] [-f address [Full Name ...]] [-m SMTPHOST] [-s SUBJECT]
+usage: Imeil [-h] [-f address [Full Name ...]] [-m SMTPHOST] [-n PORTNUMBER] [-s SUBJECT]
              [-b BODY] [-l HTML] [-r address [Full Name ...]]
              [-c address [Full Name ...]] [-o address [Full Name ...]] [-u]
-             [-d] [-i] [-a ATTACHMENTS [ATTACHMENTS ...]] [-p] [-t] [-v]
+             [-d] [-i] [-a ATTACHMENTS [ATTACHMENTS ...]] [-p] [-t] [-v] [-e USER] [-w PASSWORD]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -18,6 +18,7 @@ optional arguments:
                         Mail From:
   -m SMTPHOST, --smtphost SMTPHOST
                         SMTP server where to send feed
+  -n PORTNUMBER, --portnumber PORTNUMBER
   -s SUBJECT, --subject SUBJECT
                         Subject
   -b BODY, --body BODY  text/plain body - String or path to the file
@@ -42,8 +43,14 @@ optional arguments:
 ```
 
 ## Examples
+Using default port 25 without auth
 ```sh
 ./imeil.py -f test@test123.com "The Tester" -m 127.0.0.1 -r recipient1@domain.com "Recipient 1" -r recipient2@domain.com -c recipient3@domain.com -a /path/to/test.png -a path/to/test.pdf -s "This is a subject" -b "Plain Text body" -l /path/to/htmlbody.html
+```
+
+Using client port 587 with username and password
+```sh
+./imeil.py -f test@test123.com "The Tester" -m 127.0.0.1 -n 587 -r recipient1@domain.com "Recipient 1" -r recipient2@domain.com -c recipient3@domain.com -a /path/to/test.png -a path/to/test.pdf -s "This is a subject" -b "Plain Text body" -l /path/to/htmlbody.html -e recipient1@domain.com -w Thepassword
 ```
 
 Multiple --mailfrom addresses create a set of emails for each mailfrom:

@@ -113,7 +113,7 @@ class Email:
     def clearBcc(self):
         self.bcc.clear()
 
-    def send(self,smtpHost, verbose, noTls, testPrint):
+    def send(self, smtpHost, port, verbose, noTls, testPrint, user, password):
         """ 
             Create an actual smtplib object and send it to smtpHost
             testPrint: only prints the message without sending it
@@ -144,9 +144,11 @@ class Email:
         if testPrint:
             print(msg.as_string())
         else:
-            smtpConnection = smtplib.SMTP(smtpHost)
+            smtpConnection = smtplib.SMTP(smtpHost, port=port)
             if not noTls:
-            	smtpConnection.starttls()
+                    smtpConnection.starttls()
+            if user:
+                smtpConnection.login(user, password)                        
             if verbose:
                 smtpConnection.set_debuglevel(1)
             if self.dsnOptions:
@@ -239,6 +241,7 @@ def main():
     parser = argparse.ArgumentParser('Imeil')
     parser.add_argument("-f", "--mailfrom", nargs='+', action=AddEmailAddresses, dest="mailfrom", metavar=('address','Full Name'), help="Mail From: ")
     parser.add_argument("-m", "--smtphost", dest="smtphost", help="SMTP server where to send feed")
+    parser.add_argument("-n", "--portnumber", dest="portnumber", default=25, help="SMTP Port number")
     parser.add_argument("-s", "--subject", dest="subject", help="Subject")
     parser.add_argument("-b", "--body", dest="body", help="text/plain body - String or path to the file containing the body")
     parser.add_argument("-l", "--htmlbody", dest="html", help="text/html body - String or path to the file containing the html body")
@@ -251,6 +254,8 @@ def main():
     parser.add_argument("-a", "--attach", nargs='+', action='append', dest="attachments", help="Path to files to attach")
     parser.add_argument("-p", "--print", action='store_true', default=False, dest="testprint", help="Prints the message instead of sending it")
     parser.add_argument("-t", "--notls", action='store_true', default=False, dest="notls", help="Disables TLS")
+    parser.add_argument("-e", "--user", dest="user", help="User account")
+    parser.add_argument("-w", "--password", dest="password", help="Password")
     parser.add_argument("-v", "--verbose", action='store_true', default=False, dest="verbose", help="Verbose")
 
     args = parser.parse_args()
@@ -286,7 +291,7 @@ def main():
             for filepath in args.attachments:
                 correo.addAttachment(Attachment(filepath[0]))
 
-    correo.send(args.smtphost, args.verbose, args.notls, args.testprint)
+    correo.send(args.smtphost, args.portnumber, args.verbose, args.notls, args.testprint, args.user, args.password)
   
 
 if __name__ == "__main__":
